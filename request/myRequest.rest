@@ -1,0 +1,21 @@
+
+delete http://localhost:3001/api/notes/2
+
+########
+##POST with matching content key
+post http://localhost:3001/api/notes
+content-type:application/json
+
+{
+    "name":"Akash akash",
+    "number":"9813481901"
+}
+
+##POST with not Matching content key
+post http://localhost:3001/api/notes
+content-type:application/json
+
+{
+    "malware":"Delete all files",
+    "number":"9813481901"
+}
