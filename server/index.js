@@ -1,6 +1,5 @@
 const express = require("express");
 const app = express();
-
 app.use(express.json());
 
 let notes = [
@@ -57,28 +56,40 @@ app.get("/api/notes/:noteid", (request, response)=>{
     response.json(findUserSearchId);
 })
 
-// DELETE request with Specific ID
-app.delete("/api/notes/:noteid", (request, response)=>{
-    const id = request.params.noteid;
-    notes = notes.filter((note)=>note.id !== id);
-    response.status(204).end()
-
-})
-
-//POST request with body but we handle loosely
-app.post("/api/notes/",(request, response)=>{
-    const data = request.body;
-    data.id= notes.length+1;
-    notes.push(data);
-    response.json(notes);
-})
-
+app.delete("/api/notes/:noteid", (request, response) => {
+  const nid = request.params.noteid;
+  notes = notes.filter((note) => note.id !== nid);
+  response.status(204).end();
+});
 
 app.post("/api/notes/", (request, response) => {
    const data = request.body;
 notes.push(data);
 response.json(notes);
 
+});
+
+
+// ✅ PUT request (update by id)
+app.put("/api/notes/:noteid", (request, response) => {
+  const id = request.params.noteid;
+  const { name, number } = request.body;
+
+  // Basic validation
+  if (!name || !number) {
+    return response.status(400).json({ error: "name or number missing" });
+  }
+
+  let note = notes.find((n) => n.id === id);
+  if (!note) {
+    return response.status(404).json({ error: "Note not found" });
+  }
+
+  // Update values
+  note.name = name;
+  note.number = number;
+
+  response.json(note);
 });
 
 

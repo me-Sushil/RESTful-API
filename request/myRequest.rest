@@ -1,21 +1,46 @@
 
-delete http://localhost:3001/api/notes/2
 
 ########
-##POST with matching content key
-post http://localhost:3001/api/notes
-content-type:application/json
+##GET all notes
+get http://localhost:3001/api/notes
+
+########
+##GET notes by id
+get http://localhost:3001/api/notes/2
+
+########
+##PUT update notes (valid update)
+put http://localhost:3001/api/notes/2
+content-type: application/json
 
 {
-    "name":"Akash akash",
-    "number":"9813481901"
+    "name": "Akash Update",
+    "number": "+977 9719093412"
 }
 
-##POST with not Matching content key
-post http://localhost:3001/api/notes
-content-type:application/json
+########
+##PUT update notes (invalid data, will fail validation)
+put http://localhost:3001/api/notes/2
+content-type: application/json
 
 {
-    "malware":"Delete all files",
-    "number":"9813481901"
+    "name": "",
+    "number": "not-a-phone-number"
 }
+
+
+########
+##delete note by id
+
+delete http://localhost:3001/api/notes/2
+
+#######
+
+post http://localhost:3001/api/notes
+content-type: application/json
+
+{
+    "name": "Suresh Bishowkarma", 
+    "number": "040-123456"
+}
+
